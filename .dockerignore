@@ -1,0 +1,16 @@
+.*
+.env
+docker-compose-dev.yml
+dist
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+ARM/
+ARM64/
+bld/
+[Bb]in/
+[Oo]bj/
+
