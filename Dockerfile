@@ -7,5 +7,5 @@ ARG TARGETOS TARGETARCH
 RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /src ./cmd/pongo
 
 FROM alpine
-COPY --from=build /src/flareup /bin
-CMD ["/bin/flareup"]
+COPY --from=build /src/pongo /bin
+CMD ["/bin/pongo"]

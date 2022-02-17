@@ -19,11 +19,9 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
-	addr := syscall.SockaddrInet4{
-		Port: 0,
-		Addr: [4]byte{0, 0, 0, 0},
-	}
+
 	file := os.NewFile(uintptr(fd), "")
+	log.Println("Listening to IPv4 ICMP Packets:")
 	for {
 		buf := make([]byte, 84)
 		_, err := file.Read(buf)
@@ -31,29 +29,36 @@ func main() {
 			log.Println(err)
 		}
 		if bytes.Equal(buf[20:21], []byte{8}) {
-			packet := forgedPacket(buf)
+			packet, date := forgedPacket(buf)
+			addr := syscall.SockaddrInet4{
+				Port: 0,
+				Addr: [4]byte{packet[16], packet[17], packet[18], packet[19]},
+			}
 			err = syscall.Sendto(fd, packet, 0, &addr)
 			if err != nil {
 				log.Fatal("Sendto:", err)
 			}
+			log.Printf("Replied to host %d.%d.%d.%d with date %s", int16(packet[16]), int16(packet[17]), int16(packet[18]), int16(packet[19]), date)
 		}
 	}
 }
 
-func forgedPacket(buf []byte) []byte {
-	var icmpTime int64
+func forgedPacket(buf []byte) ([]byte, string) {
 	forgedTime := make([]byte, 4)
-	now := time.Now().Unix()
-	icmpTime = int64(binary.LittleEndian.Uint32(buf[28:32]))
-	fakeTime := icmpTime + (now - icmpTime)
-	fmt.Println(fakeTime)
+	src := []byte{buf[12], buf[13], buf[14], buf[15]}
+	dst := []byte{buf[16], buf[17], buf[18], buf[19]}
+	fakeTime := int64(binary.LittleEndian.Uint32(buf[28:32])) * 1000
+	year, month, day := time.Unix(fakeTime, 0).Date()
+	date := fmt.Sprintf("%d-%s-%d", day, month, year)
 	binary.LittleEndian.PutUint32(forgedTime, uint32(fakeTime))
-	copy(buf[20:21], []byte{0})    //reply
-	copy(buf[22:24], []byte{0, 0}) //zeroing checksum
-	copy(buf[28:32], forgedTime)   // timestamp
-	cs := csum(buf[20:])
+	copy(buf[12:16], dst)            //destination for ipv4
+	copy(buf[16:20], src)            //source for ipv4
+	copy(buf[20:21], []byte{0})      //reply
+	copy(buf[22:24], []byte{0, 0})   //zeroing checksum
+	copy(buf[28:32], forgedTime)     //timestamp
+	cs := csum(buf[20:])             //calculate checksum
 	copy(buf[22:24], intToBytes(cs)) //insert checksum
-	return buf
+	return buf, date
 }
 
 func csum(b []byte) uint16 {

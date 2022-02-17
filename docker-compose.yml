@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  pongo:
+    image: coolfool/pongo
+    container_name: pongo
+    restart: unless-stopped
+    network_mode: host
