@@ -16,8 +16,9 @@
 - [License](#License)
 
 ## Introduction
-A Proof-of-concept program which forges timestamp in icmp ping packets and makes it appear from far into
-the future (approx 17000 days in future) but the ping times remain the normal.
+- A Proof-of-concept program which forges timestamp in icmp ping packets and makes it appear from far into
+the future (approx 17000 days in future) but the ping times remain the normal. <br>
+- Currently only tested on Linux but should work on macOS
 ## Screenshots
 |          Ping times          |              Pongo Reply Log              |
 |:----------------------------:|:-----------------------------------------:|
