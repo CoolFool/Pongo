@@ -1,6 +1,6 @@
 <div align="left" id = "top">
 <h1>Pongo</h1>
-<h3>Get message from future instantly using icmp ping</h3> 
+<h3>Get message from future using icmp ping</h3> 
 </div>
 
 ## Contents
