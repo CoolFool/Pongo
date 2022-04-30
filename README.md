@@ -4,16 +4,16 @@
 </div>
 
 ## Contents
-- [Introduction](#Introduction)
-- [Screenshots](#Screenshots)
-- [Usage](#Usage)
-    - [Docker (Run and Compose)](#Docker)
-    - [Standalone Binaries](#Standalone-Binaries)
-- [Build and Run Locally](#Build-and-Run-Locally)
-- [Contributing](#Contributing)
-- [Acknowledgement](#Acknowledgement)
-- [Authors](#Authors)
-- [License](#License)
+- [Introduction](#introduction)
+- [Screenshots](#screenshots)
+- [Usage](#usage)
+    - [Docker (Run and Compose)](#docker)
+    - [Standalone Binaries](#standalone-binaries)
+- [Build and Run Locally](#build-and-run-locally)
+- [Contributing](#contributing)
+- [Acknowledgement](#acknowledgement)
+- [Authors](#authors)
+- [License](#license)
 
 ## Introduction
 - A Proof-of-concept program which forges timestamp in icmp ping packets and makes it appear from far into
